@@ -44,7 +44,9 @@ services:
       <<: *redash-environment
       PYTHONUNBUFFERED: 0
   redis:
-    image: redis:3-alpine
+# Using redis:6.2.4-alpine3.13 instead of redis:3-alpine due error: Can't handle RDB format version 9.
+# Not getting error with this version. Ref: https://github.com/redis/redis/issues/6032
+    image: redis:6.2.4-alpine3.13
     restart: unless-stopped
   postgres:
     image: postgres:9.5-alpine
@@ -53,6 +55,8 @@ services:
     # tests.
     ports:
       - "15432:5432"
+    volumes:
+      - /Users/postman/work/redash/postgres-data:/var/lib/postgresql/data
     command: "postgres -c fsync=off -c full_page_writes=off -c synchronous_commit=OFF"
     restart: unless-stopped
     environment:
