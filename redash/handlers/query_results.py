@@ -387,12 +387,21 @@ class QueryResultResource(BaseResource):
 
                 self.record_event(event)
 
+            query_results_download_limit = int(models.Organization.get_setting(
+                self.current_org,
+                "query_results_download_limit"
+            ))
+
             response_builders = {
                 'json': self.make_json_response,
                 'xlsx': self.make_excel_response,
                 'csv': self.make_csv_response,
                 'tsv': self.make_tsv_response
             }
+
+            if filetype != "json":
+                query_result.data['rows'] = query_result.data['rows'][:query_results_download_limit]
+
             response = response_builders[filetype](query_result)
 
             if len(settings.ACCESS_CONTROL_ALLOW_ORIGIN) > 0:

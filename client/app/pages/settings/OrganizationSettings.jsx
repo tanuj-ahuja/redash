@@ -6,6 +6,7 @@ import Alert from "antd/lib/alert";
 import Button from "antd/lib/button";
 import Form from "antd/lib/form";
 import Input from "antd/lib/input";
+import { InputNumber } from "antd"
 import Select from "antd/lib/select";
 import Checkbox from "antd/lib/checkbox";
 import Tooltip from "antd/lib/tooltip";
@@ -148,6 +149,12 @@ class OrganizationSettings extends React.Component {
       <React.Fragment>
         <h3 className="m-t-0">General</h3>
         <hr />
+        <Form.Item label="Query Results Download Limit">
+          <InputNumber className="w-100"
+              value={formValues.query_results_download_limit}
+              onChange={value => this.handleChange("query_results_download_limit", value)}>
+          </InputNumber>
+        </Form.Item>
         <Form.Item label="Date Format">
           <Select
             value={formValues.date_format}
