@@ -8,6 +8,7 @@ describe("Settings", () => {
     cy.getByTestId("OrganizationSettings").within(() => {
       cy.getByTestId("DateFormatSelect").should("contain", "DD/MM/YY");
       cy.getByTestId("TimeFormatSelect").should("contain", "HH:mm");
+      cy.getByTestId("DownloadDefaultInputNumber").should("contain", "");
     });
 
     cy.percySnapshot("Organization Settings");

@@ -46,6 +46,7 @@ SEND_EMAIL_ON_FAILED_SCHEDULED_QUERIES = parse_boolean(
 HIDE_PLOTLY_MODE_BAR = parse_boolean(
     os.environ.get("HIDE_PLOTLY_MODE_BAR", "false")
 )
+QUERY_RESULTS_DOWNLOAD_LIMIT = os.environ.get("QUERY_RESULTS_DOWNLOAD_LIMIT", "")
 
 settings = {
     "beacon_consent": None,
@@ -69,4 +70,5 @@ settings = {
     "feature_show_permissions_control": FEATURE_SHOW_PERMISSIONS_CONTROL,
     "send_email_on_failed_scheduled_queries": SEND_EMAIL_ON_FAILED_SCHEDULED_QUERIES,
     "hide_plotly_mode_bar": HIDE_PLOTLY_MODE_BAR,
+    "query_results_download_limit": QUERY_RESULTS_DOWNLOAD_LIMIT
 }
