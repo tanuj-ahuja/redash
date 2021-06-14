@@ -387,10 +387,10 @@ class QueryResultResource(BaseResource):
 
                 self.record_event(event)
 
-            query_results_download_limit = int(models.Organization.get_setting(
+            query_results_download_limit = models.Organization.get_setting(
                 self.current_org,
                 "query_results_download_limit"
-            ))
+            )
 
             response_builders = {
                 'json': self.make_json_response,
@@ -399,7 +399,7 @@ class QueryResultResource(BaseResource):
                 'tsv': self.make_tsv_response
             }
 
-            if filetype != "json":
+            if filetype != "json" and query_results_download_limit:
                 query_result.data['rows'] = query_result.data['rows'][:query_results_download_limit]
 
             response = response_builders[filetype](query_result)

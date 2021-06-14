@@ -55,8 +55,6 @@ services:
     # tests.
     ports:
       - "15432:5432"
-    volumes:
-      - /Users/postman/work/redash/postgres-data:/var/lib/postgresql/data
     command: "postgres -c fsync=off -c full_page_writes=off -c synchronous_commit=OFF"
     restart: unless-stopped
     environment:

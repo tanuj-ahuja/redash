@@ -152,7 +152,8 @@ class OrganizationSettings extends React.Component {
         <Form.Item label="Query Results Download Limit">
           <InputNumber className="w-100"
               value={formValues.query_results_download_limit}
-              onChange={value => this.handleChange("query_results_download_limit", value)}>
+              onChange={value => this.handleChange("query_results_download_limit", value)}
+              data-test="DownloadDefaultInputNumber">
           </InputNumber>
         </Form.Item>
         <Form.Item label="Date Format">

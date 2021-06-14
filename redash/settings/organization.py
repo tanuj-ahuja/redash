@@ -46,7 +46,7 @@ SEND_EMAIL_ON_FAILED_SCHEDULED_QUERIES = parse_boolean(
 HIDE_PLOTLY_MODE_BAR = parse_boolean(
     os.environ.get("HIDE_PLOTLY_MODE_BAR", "false")
 )
-QUERY_RESULTS_DOWNLOAD_LIMIT = os.environ.get("QUERY_RESULTS_DOWNLOAD_LIMIT", "100")
+QUERY_RESULTS_DOWNLOAD_LIMIT = os.environ.get("QUERY_RESULTS_DOWNLOAD_LIMIT", "")
 
 settings = {
     "beacon_consent": None,
