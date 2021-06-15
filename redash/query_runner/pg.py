@@ -266,13 +266,13 @@ class PostgreSQL(BaseSQLQueryRunner):
                     dict(zip((column["name"] for column in columns), row))
                     for row in cursor
                 ]
-
-                data = {"columns": columns, "rows": rows}
-                error = None
-                json_data = json_dumps(data, ignore_nan=True, cls=PostgreSQLJSONEncoder)
             else:
-                error = "Query completed but it returned no data."
-                json_data = None
+                columns = self.fetch_columns([("Updated Rows", TYPE_INTEGER)])
+                rows = [{"Updated Rows": cursor.rowcount}]
+
+            data = {"columns": columns, "rows": rows}
+            error = None
+            json_data = json_dumps(data, ignore_nan=True, cls=PostgreSQLJSONEncoder)
         except (select.error, OSError) as e:
             error = "Query interrupted. Please retry."
             json_data = None
