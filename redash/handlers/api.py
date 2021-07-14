@@ -251,6 +251,7 @@ api.add_org_resource(
     "/api/query_results/<query_result_id>.<filetype>",
     "/api/query_results/<query_result_id>",
     "/api/queries/<query_id>/results",
+    "/api/queries/<query_id>/results/export_to_s3",
     "/api/queries/<query_id>/results.<filetype>",
     "/api/queries/<query_id>/results/<query_result_id>.<filetype>",
     endpoint="query_result",

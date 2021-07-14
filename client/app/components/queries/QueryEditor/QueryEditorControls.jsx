@@ -36,13 +36,14 @@ export default function EditorControl({
   addParameterButtonProps,
   formatButtonProps,
   saveButtonProps,
+  UploadToS3ButtonProps,
   executeButtonProps,
   autocompleteToggleProps,
   dataSourceSelectorProps,
 }) {
   useEffect(() => {
     const buttons = filter(
-      [addParameterButtonProps, formatButtonProps, saveButtonProps, executeButtonProps],
+      [addParameterButtonProps, formatButtonProps, saveButtonProps, UploadToS3ButtonProps, executeButtonProps],
       b => b.shortcut && !b.disabled && isFunction(b.onClick)
     );
     if (buttons.length > 0) {
@@ -52,7 +53,7 @@ export default function EditorControl({
         KeyboardShortcuts.unbind(shortcuts);
       };
     }
-  }, [addParameterButtonProps, formatButtonProps, saveButtonProps, executeButtonProps]);
+  }, [addParameterButtonProps, formatButtonProps, saveButtonProps, UploadToS3ButtonProps, executeButtonProps]);
 
   return (
     <div className="query-editor-controls">
@@ -111,6 +112,19 @@ export default function EditorControl({
           </Button>
         </ButtonTooltip>
       )}
+      {UploadToS3ButtonProps !== false && (
+        <ButtonTooltip title={UploadToS3ButtonProps.title} shortcut={UploadToS3ButtonProps.shortcut}>
+          <Button
+            className="query-editor-controls-button m-l-5"
+            disabled={UploadToS3ButtonProps.disabled}
+            loading={UploadToS3ButtonProps.loading}
+            onClick={UploadToS3ButtonProps.onClick}
+            data-test="SaveButton">
+            {!UploadToS3ButtonProps.loading && <span className="fa fa-amazon" />}
+            {UploadToS3ButtonProps.text}
+          </Button>
+        </ButtonTooltip>
+      )}
       {executeButtonProps !== false && (
         <ButtonTooltip title={executeButtonProps.title} shortcut={executeButtonProps.shortcut}>
           <Button
@@ -144,6 +158,7 @@ EditorControl.propTypes = {
   addParameterButtonProps: ButtonPropsPropType,
   formatButtonProps: ButtonPropsPropType,
   saveButtonProps: ButtonPropsPropType,
+  UploadToS3ButtonProps: ButtonPropsPropType,
   executeButtonProps: ButtonPropsPropType,
   autocompleteToggleProps: PropTypes.oneOfType([
     PropTypes.bool, // `false` to hide
@@ -173,6 +188,7 @@ EditorControl.defaultProps = {
   addParameterButtonProps: false,
   formatButtonProps: false,
   saveButtonProps: false,
+  UploadToS3ButtonProps: false,
   executeButtonProps: false,
   autocompleteToggleProps: false,
   dataSourceSelectorProps: false,

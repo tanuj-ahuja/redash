@@ -27,6 +27,7 @@ import useQuery from "./hooks/useQuery";
 import useVisualizationTabHandler from "./hooks/useVisualizationTabHandler";
 import useAutocompleteFlags from "./hooks/useAutocompleteFlags";
 import useQueryExecute from "./hooks/useQueryExecute";
+import useQueryDump from "./hooks/useQueryDump";
 import useQueryResultData from "@/lib/useQueryResultData";
 import useQueryDataSources from "./hooks/useQueryDataSources";
 import useDataSourceSchema from "./hooks/useDataSourceSchema";
@@ -72,6 +73,8 @@ function QuerySource(props) {
     updatedAt,
     loadedInitialResults,
   } = useQueryExecute(query);
+
+  const { dumpToS3 } = useQueryDump(query)
 
   const queryResultData = useQueryResultData(queryResult);
 
@@ -158,10 +161,21 @@ function QuerySource(props) {
           return query.getQueryResultByText(0, selectedText);
         });
       } else {
+        console.log(typeof executeQuery)
         executeQuery();
       }
     },
     [query, queryFlags.canExecute, areParametersDirty, isQueryExecuting, isDirty, selectedText, executeQuery]
+  );
+
+  const doDumpToS3 = useCallback(
+    (skipParametersDirtyFlag = false) => {
+      if (!queryFlags.canExecute || (!skipParametersDirtyFlag && (areParametersDirty || isQueryExecuting))) {
+        return;
+      } else {
+        dumpToS3();
+      }
+    }, [queryFlags.canExecute, areParametersDirty, isQueryExecuting, dumpToS3]
   );
 
   const [isQuerySaving, setIsQuerySaving] = useState(false);
@@ -295,6 +309,16 @@ function QuerySource(props) {
                         onClick: doExecuteQuery,
                         text: (
                           <span className="hidden-xs">{selectedText === null ? "Execute" : "Execute Selected"}</span>
+                        ),
+                      }}
+                      UploadToS3ButtonProps={{
+                        disabled: !queryFlags.canExecute || isQueryExecuting || areParametersDirty,
+                        shortcut: "mod+u",
+                        onClick: doDumpToS3,
+                        text: (
+                          <React.Fragment>
+                            <span className="hidden-xs">Dump to S3</span>
+                          </React.Fragment>
                         ),
                       }}
                       autocompleteToggleProps={{
